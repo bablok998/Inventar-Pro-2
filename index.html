@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a7d4f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Shitjet">
+<title>Shitjet</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f5f7;--card:#fff;--tx:#1d1d1f;--mu:#6e6e73;--ac:#0a7d4f;--bd:#e0e0e5;--dg:#c0392b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111;--card:#1c1c1e;--tx:#f5f5f7;--mu:#98989d;--ac:#30c27c;--bd:#2c2c2e;--dg:#ff6b5e}}
+:root[data-theme="dark"]{--bg:#111;--card:#1c1c1e;--tx:#f5f5f7;--mu:#98989d;--ac:#30c27c;--bd:#2c2c2e;--dg:#ff6b5e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.w{max-width:520px;margin:0 auto;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.top input{font-size:20px;font-weight:700;background:transparent;border:0;color:var(--tx);width:100%;min-width:0;padding:4px 0}
+.logo{flex:none;width:64px;height:64px;border-radius:14px;border:2px dashed var(--bd);background:var(--card) center/contain no-repeat;color:var(--mu);font-size:12px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;overflow:hidden}
+.logo.has{border-style:solid}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.stats b{display:block;font-size:22px}.stats span{font-size:12px;color:var(--mu)}
+.stats .low{color:var(--dg)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.deal{border:0;border-radius:16px;background:var(--ac);color:#fff;padding:22px 8px;font-size:15px;cursor:pointer;display:flex;flex-direction:column;gap:4px;align-items:center}
+.deal b{font-size:30px}
+.deal:active{transform:scale(.97)}
+.deal.opt{background:var(--card);color:var(--tx);border:2px dashed var(--ac)}
+.opts{display:none;gap:8px;margin-bottom:14px}.opts.on{display:flex}
+.opts input,.row input{flex:1;min-width:0;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:16px}
+button.s{padding:12px 16px;border-radius:10px;border:0;background:var(--ac);color:#fff;font-size:15px;cursor:pointer}
+button.g{background:transparent;color:var(--mu);border:1px solid var(--bd);border-radius:10px;padding:8px 12px;cursor:pointer;font-size:13px}
+.row{display:flex;gap:8px;align-items:center}
+.log div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bd);font-size:14px}
+.log div:last-child{border:0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:20px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}
+.toast.on{opacity:1}
+h3{margin:0 0 8px;font-size:14px;color:var(--mu);font-weight:600}
+.cal{display:flex;gap:8px;margin-bottom:6px}.cal input{flex:1;min-width:0;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:16px}
+.wm{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 24px;z-index:10}.wm.on{display:flex}
+.wb{background:var(--card);color:var(--tx);border-radius:16px;border:1px solid var(--bd);width:100%;max-width:480px;padding:16px}
+.wb h2{margin:0 0 4px;font-size:18px}.wb .rng{font-size:12px;color:var(--mu);margin-bottom:12px}
+.wn{display:flex;gap:8px;margin-bottom:12px;align-items:center}.wn div{flex:1;text-align:center;font-weight:600;font-size:14px}
+.wd div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}.wd div:last-child{border:0}
+.badge{display:inline-block;background:var(--ac);color:#fff;border-radius:8px;padding:2px 8px;font-size:12px;margin-left:6px}
+.top .g{flex:none;padding:10px 12px;font-weight:600;color:var(--tx);border-color:var(--ac)}
+.mn{display:none;flex-direction:column;gap:8px;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;margin-bottom:12px}.mn.on{display:flex}.mn button{text-align:left;width:100%;padding:12px}#mb{flex:none;font-size:18px;padding:6px 12px}
+.log div{align-items:center}
+@media print{:root:not([data-theme="x"]){--bg:#fff;--card:#fff;--tx:#000;--mu:#555;--bd:#ccc}.w,.toast,#sm,#emd{display:none!important}.wm.on{position:static;display:block;background:none;padding:0}.wb{border:0}.wb button{display:none!important}body{background:#fff}}
+.cols{display:grid;grid-template-columns:1fr 1fr}.cols>div{padding:0 8px;min-width:0}.cols>div:first-child{border-right:1px solid var(--bd);padding-left:0}.cols>div:last-child{padding-right:0}.ch{text-align:center;margin:0 0 6px;color:var(--tx)}.ch span{color:var(--ac)}.cols .log div{flex-direction:column;align-items:flex-start;gap:2px}
+.hint{font-size:12px;color:var(--mu);margin-bottom:12px}.deal.bk{background:#2563eb}.pay h3{color:var(--tx);font-size:16px;text-align:center;margin-bottom:12px}.stats{row-gap:14px}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="top">
+    <button class="g" id="wbtn">📊 Përfundo</button>
+    <input id="name" placeholder="Emri i produktit" maxlength="40">
+    <label class="logo" id="logo">+ Logo<input type="file" id="file" accept="image/*" hidden></label>
+  </div>
+
+  <div class="cal"><button class="g" id="mb" aria-label="Menu">☰</button><button class="g" id="prev">‹</button><input type="date" id="day"><button class="g" id="next">›</button><button class="g" id="today">Sot</button></div>
+  <div class="mn" id="menu">
+    <button class="g" id="rd">🚗 Hiq shofer nga lista</button>
+    <button class="g" id="sb">⚙ Cilësimet (çmime & kosto)</button>
+    <button class="g" id="xa">➖ Shto shpenzim</button>
+    <button class="g" id="xu">↩ Anulo shpenzimin e fundit</button>
+    <button class="g" id="dl">⬇ Shkarko të dhënat (skedar)</button>
+    <button class="g" id="ul">⬆ Hap skedar të dhënash</button><input type="file" id="ulf" accept=".json,application/json" hidden>
+    <button class="g" id="bk">📋 Kopjo backup</button>
+    <button class="g" id="rs">⬆ Rikthe backup</button>
+    <button class="g" id="reset" style="color:var(--dg)">Fshi gjithçka</button>
+    <div class="hint" style="margin:4px 0 0">Të dhënat ruhen në këtë pajisje. Për ta përdorur në pajisje tjetër: shkarko skedarin, ruaje në USB ose dërgoje, pastaj hape aty me "Hap skedar të dhënash".</div>
+  </div>
+  <div class="hint">Dita: 07:00 – 05:00 (e nesërmja)</div>
+  <div class="card stats">
+    <div><b id="vc">£0</b><span>💵 Cash</span></div>
+    <div><b id="vb">£0</b><span>💳 Bank</span></div>
+    <div><b id="vt">£0</b><span>Total</span></div>
+    <div><b id="sold">0</b><span>Copë (dita)</span></div>
+    <div><b id="cnt">0</b><span>Shitje</span></div>
+    <div><b id="st">0</b><span>Stoku mbetur</span></div>
+  </div>
+  <div class="hint" id="vdb" style="color:var(--dg);font-weight:600;display:none"></div>
+
+  <div class="grid">
+    <span id="deals" style="display:contents"></span>
+    <button class="deal opt" id="optb"><b>＋</b>Opsional</button>
+  </div>
+  <div class="opts" id="opts">
+    <input id="oq" type="number" min="1" inputmode="numeric" placeholder="Copë">
+    <input id="op" type="number" min="0" inputmode="decimal" placeholder="Çmimi £">
+    <button class="s" id="ob">Vazhdo</button>
+  </div>
+  <div class="card pay" id="pay" style="display:none"><h3 id="pt"></h3><div id="pg" style="display:flex;gap:8px;margin:0"><button class="deal" id="cash" style="flex:1"><b>💵</b>Cash</button><button class="deal" id="debt" style="flex:none;width:68px;padding:8px 4px;font-size:12px;background:var(--dg);justify-content:center"><b style="font-size:18px">🔴</b>Borxh</button><button class="deal bk" id="bank" style="flex:1"><b>💳</b>Bank</button></div><div id="drv" style="display:none"><div id="dl2" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px"></div></div><button class="g" id="pc" style="margin-top:10px;width:100%">Anulo</button></div>
+
+  <div class="card">
+    <h3>Shto / zbrit stok</h3>
+    <div class="row"><input id="add" type="number" min="1" inputmode="numeric" placeholder="Sa copë po shton?"><button class="s" id="addb">Shto</button><button class="g" id="subb" style="color:var(--dg)">− Zbrit</button></div>
+  </div>
+
+  <div class="card">
+    <div class="row" style="justify-content:space-between;margin-bottom:6px"><h3 style="margin:0">Shitjet e fundit</h3><button class="g" id="undo">↩ Anulo të fundit</button></div>
+    <div class="cols"><div><h3 class="ch">👧 Vajza <span id="tv"></span></h3><div class="log" id="logV"></div></div><div><h3 class="ch">👦 Djali <span id="td"></span></h3><div class="log" id="logD"></div></div></div>
+    <div id="oth" style="display:none;margin-top:10px"><h3>Të tjerë / pa emër</h3><div class="log" id="logO"></div></div>
+  </div>
+  <div style="height:24px"></div>
+</div>
+<div class="wm" id="wm"><div class="wb">
+  <h2>Mbyllja javore</h2>
+  <div class="rng" id="wr"></div>
+  <div class="wn"><button class="g" id="wp">‹</button><div id="wl"></div><button class="g" id="wnx">›</button></div>
+  <div class="card stats" style="margin-bottom:12px">
+    <div><b id="wc">£0</b><span>💵 Cash</span></div>
+    <div><b id="wbk">£0</b><span>💳 Bank</span></div>
+    <div><b id="wt">£0</b><span>Xhiro totale</span></div>
+    <div><b id="wq">0</b><span>Copë të shitura</span></div>
+    <div><b id="wn2">0</b><span>Shitje</span></div>
+    <div><b id="ws">0</b><span>Stoku tani</span></div>
+  </div>
+  <div class="card" style="margin-bottom:12px;text-align:center;border-color:var(--ac)"><span style="font-size:13px;color:var(--mu)">Shuma Cash + Bank</span><b id="wsum" style="display:block;font-size:26px;margin-top:4px"></b></div>
+  <div class="row" style="margin-bottom:12px"><label for="wcs" style="font-size:14px;flex:1">Kosto për copë (£) — opsionale</label><input id="wcs" type="number" min="0" step="any" placeholder="p.sh. 11" style="max-width:110px"></div>
+  <div class="card" id="wnet" style="margin-bottom:12px;font-size:14px;line-height:1.7"></div>
+  <h3>Punëtorët (opsionale)</h3>
+  <div style="margin-bottom:12px"><div class="row" style="margin-bottom:6px"><input id="wgn0" placeholder="Punëtori (opsional)"><input id="wga0" type="number" min="0" step="any" placeholder="£" style="max-width:90px"><label style="font-size:13px;white-space:nowrap;display:flex;gap:4px;align-items:center"><input type="checkbox" id="wgz0" checked style="flex:none;padding:0;width:18px;height:18px">Zbrit</label></div><div class="row" style="margin-bottom:6px"><input id="wgn1" placeholder="Punëtori (opsional)"><input id="wga1" type="number" min="0" step="any" placeholder="£" style="max-width:90px"><label style="font-size:13px;white-space:nowrap;display:flex;gap:4px;align-items:center"><input type="checkbox" id="wgz1" checked style="flex:none;padding:0;width:18px;height:18px">Zbrit</label></div><div class="row" style="margin-bottom:6px"><input id="wgn2" placeholder="Punëtori (opsional)"><input id="wga2" type="number" min="0" step="any" placeholder="£" style="max-width:90px"><label style="font-size:13px;white-space:nowrap;display:flex;gap:4px;align-items:center"><input type="checkbox" id="wgz2" checked style="flex:none;padding:0;width:18px;height:18px">Zbrit</label></div><div class="row" style="margin-bottom:6px"><input id="wgn3" placeholder="Punëtori (opsional)"><input id="wga3" type="number" min="0" step="any" placeholder="£" style="max-width:90px"><label style="font-size:13px;white-space:nowrap;display:flex;gap:4px;align-items:center"><input type="checkbox" id="wgz3" checked style="flex:none;padding:0;width:18px;height:18px">Zbrit</label></div></div>
+  <div class="wd" id="wdr" style="margin-bottom:12px"></div>
+  <h3>Sipas ditëve</h3>
+  <div class="wd" id="wdl" style="margin-bottom:12px"></div>
+  <div class="row" style="flex-wrap:wrap"><button class="s" id="wclose">✓ Mbyll javën</button><button class="g" id="wcopy">📋 Kopjo raportin</button><button class="g" id="wpr">🖨 Printo / PDF</button><button class="g" id="wx">Mbyll</button></div>
+  <div class="hint" id="wh" style="margin:10px 0 0"></div>
+</div></div>
+<div class="wm" id="sm"><div class="wb"><h2>Cilësimet</h2><div class="rng">Butonat e shitjes (copë dhe çmim)</div><div class="row" style="margin-bottom:8px"><input id="sq0" type="number" min="1" placeholder="Copë"><input id="sp0" type="number" min="0" step="any" placeholder="Çmimi £"></div><div class="row" style="margin-bottom:8px"><input id="sq1" type="number" min="1" placeholder="Copë"><input id="sp1" type="number" min="0" step="any" placeholder="Çmimi £"></div><div class="row" style="margin-bottom:8px"><input id="sq2" type="number" min="1" placeholder="Copë"><input id="sp2" type="number" min="0" step="any" placeholder="Çmimi £"></div><h3 style="margin-top:12px">Kosto e blerjes për 1 copë (£)</h3><input id="sc" type="number" min="0" step="any" placeholder="p.sh. 20" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:16px"><div class="row" style="margin-top:12px"><button class="s" id="ss">Ruaj</button><button class="g" id="sx">Mbyll</button></div></div></div>
+<div class="wm" id="emd"><div class="wb"><h2>Ndrysho shitjen</h2><div class="row" style="margin:12px 0"><input id="eq" type="number" min="1" placeholder="Copë"><input id="ep" type="number" min="0" step="any" placeholder="Çmimi £"></div><select id="em" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:16px"><option value="cash">💵 Cash</option><option value="bank">💳 Bank</option><option value="debt">🔴 Borxh</option></select><input id="edr" placeholder="Shoferi (opsional)" style="width:100%;margin-top:8px;padding:12px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:16px">
+<div class="row" style="margin-top:12px"><button class="s" id="es">Ruaj</button><button class="g" id="edl" style="color:var(--dg)">Fshi</button><button class="g" id="ex">Mbyll</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+var KEY="shitjet_v1",S={name:"",stock:0,logo:"",sales:[]};
+S.closed={};
+try{var r=localStorage.getItem(KEY);if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+var $=function(i){return document.getElementById(i)};
+var P=null,D;
+function pad(n){return n<10?"0"+n:""+n}
+function ds(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function dk(t){return ds(new Date(t-5*3600000))}
+D=dk(Date.now());
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast("⚠ Ruajtja dështoi — bëj backup!")}}
+function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove("on")},1600)}
+function fmt(n){n=Math.round(n*100)/100;return (n<0?"-":"")+"£"+Math.abs(n)}
+function norm(){if(!S.drivers)S.drivers=[];if(!S.wcost)S.wcost={};if(!S.loss)S.loss=[];if(!S.wages)S.wages={};if(!S.closed)S.closed={};if(!S.exp)S.exp=[];if(!S.deals)S.deals=[{q:1,p:40},{q:2,p:70},{q:3,p:100}];if(typeof S.cost!=="number")S.cost=0}
+function render(){norm();
+  var dh="";S.deals.forEach(function(d,i){dh+='<button class="deal" data-i="'+i+'"><b>'+d.q+"</b>copë · £"+d.p+"</button>"});$("deals").innerHTML=dh;
+  document.querySelectorAll(".deal[data-i]").forEach(function(b){b.onclick=function(){var d=S.deals[+b.dataset.i];sell(d.q,d.p)}});
+  $("name").value=S.name;
+  var l=$("logo");l.style.backgroundImage=S.logo?"url("+S.logo+")":"";l.classList.toggle("has",!!S.logo);
+  l.firstChild.textContent=S.logo?"":"+ Logo";
+  $("day").value=D;
+  var q=0,c=0,b=0,n=0,db=0,h="",hV="",hD="",hO="",tv=0,td=0;
+  var st=$("st");st.textContent=S.stock;st.className=S.stock<=5?"low":"";
+  S.sales.map(function(s,i){return[s,i]}).reverse().forEach(function(x){var s=x[0],i=x[1];if(dk(s.t)!==D)return;q+=s.q;n++;var bk=s.m==="bank";if(bk)b+=s.p;else if(s.m==="debt")db+=s.p;else c+=s.p;
+    var rw="<div><span>"+s.q+" copë · "+(bk?"💳":s.m==="debt"?"🔴":"💵")+" · "+new Date(s.t).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+(s.d&&s.d!=="Vajza"&&s.d!=="Djali"?" · "+dlabel(s.d):"")+"</span><span><b>"+fmt(s.p)+"</b> <button class=\"g\" style=\"padding:2px 8px\" onclick=\"ed("+i+")\">✎</button></span></div>";if(s.d==="Vajza"){hV+=rw;tv+=s.p}else if(s.d==="Djali"){hD+=rw;td+=s.p}else hO+=rw});
+  $("vc").textContent=fmt(c);$("vb").textContent=fmt(b);$("vt").textContent=fmt(c+b);$("sold").textContent=q;$("vdb").textContent="🔴 Borxh sot: "+fmt(db);$("vdb").style.display=db?"block":"none";$("cnt").textContent=n;
+  var em='<span style="color:var(--mu);font-size:13px">—</span>';$("logV").innerHTML=hV||em;$("logD").innerHTML=hD||em;$("tv").textContent=tv?fmt(tv):"";$("td").textContent=td?fmt(td):"";$("logO").innerHTML=hO;$("oth").style.display=hO?"block":"none";
+}
+function sell(q,p){
+  if(!(q>0)||!(p>=0)||p!==p){toast("Vendos vlera të sakta");return}
+  if(S.stock<q){toast("Stok i pamjaftueshëm ("+S.stock+")");return}
+  P={q:q,p:p};$("pt").textContent=q+" copë · "+fmt(p)+" — si paguhet?";rstPay();$("pay").style.display="block";$("pay").scrollIntoView({block:"nearest"});
+}
+var FX=["Vajza","Djali"];
+function dlabel(n){return n==="Vajza"?"👧 Vajza":n==="Djali"?"👦 Djali":"🚗 "+n}
+function ml(m){return m==="bank"?"Bank":m==="debt"?"Borxh":"Cash"}
+function rstPay(){$("pg").style.display="flex";$("drv").style.display="none"}
+function pay(m){if(!P)return;P.m=m;$("pg").style.display="none";$("drv").style.display="block";
+  $("pt").textContent=P.q+" copë · "+fmt(P.p)+" · "+(m==="bank"?"💳 Bank":m==="debt"?"🔴 Borxh":"💵 Cash")+" — cili shofer?";
+  var c=$("dl2");c.innerHTML="";
+  FX.concat(S.drivers.filter(function(n){return FX.indexOf(n)<0})).forEach(function(n){var b=document.createElement("button");b.className="s";b.textContent=dlabel(n);b.onclick=function(){fin(n)};c.appendChild(b)});
+  var nb=document.createElement("button");nb.className="g";nb.textContent="＋ Shofer i ri";nb.onclick=function(){var n=(prompt("Emri i shoferit:")||"").trim();if(n){if(S.drivers.indexOf(n)<0)S.drivers.push(n);fin(n)}};c.appendChild(nb);
+  var sk=document.createElement("button");sk.className="g";sk.textContent="Kalo (pa emër)";sk.onclick=function(){fin("")};c.appendChild(sk)}
+function fin(d){if(!P)return;S.stock-=P.q;S.sales.push({q:P.q,p:P.p,m:P.m,d:d||"",t:Date.now()});D=dk(Date.now());save();render();toast("✓ "+ml(P.m)+" · "+fmt(P.p)+(d?" · "+dlabel(d):""));P=null;$("pay").style.display="none";rstPay()}
+$("cash").onclick=function(){pay("cash")};$("debt").onclick=function(){pay("debt")};$("bank").onclick=function(){pay("bank")};
+$("pc").onclick=function(){P=null;$("pay").style.display="none";rstPay()};
+
+$("optb").onclick=function(){$("opts").classList.toggle("on");$("oq").focus()};
+$("ob").onclick=function(){sell(parseInt($("oq").value),parseFloat($("op").value));$("oq").value="";$("op").value=""};
+$("addb").onclick=function(){var n=parseInt($("add").value);if(n>0){S.stock+=n;$("add").value="";save();render();toast("+"+n+" në stok")}};
+$("subb").onclick=function(){var n=parseInt($("add").value);if(!(n>0)){toast("Shkruaj sa copë të zbriten");return}
+  if(n>S.stock){toast("Stok i pamjaftueshëm ("+S.stock+")");return}
+  if(!confirm("Të zbriten "+n+" copë nga stoku si humbje?"))return;S.stock-=n;S.loss.push({q:n,t:Date.now()});$("add").value="";save();render();toast("−"+n+" nga stoku (humbje)")};
+$("undo").onclick=function(){var s=S.sales.pop();if(s){S.stock+=s.q;save();render();toast("U anulua")}};
+$("reset").onclick=function(){if(confirm("Të fshihet çdo gjë?")){S={name:S.name,stock:0,logo:S.logo,sales:[],closed:{},deals:S.deals,cost:S.cost,exp:[],loss:[],wages:{},wcost:{},drivers:S.drivers};save();render()}};
+$("bk").onclick=function(){var j=JSON.stringify(S);
+  try{navigator.clipboard.writeText(j).then(function(){toast("Backup u kopjua — ngjite te Notes")},function(){prompt("Kopjo këtë tekst:",j)})}catch(e){prompt("Kopjo këtë tekst:",j)}};
+$("rs").onclick=function(){var t=prompt("Ngjit backup-in këtu:");if(!t)return;
+  try{var o=JSON.parse(t);if(!Array.isArray(o.sales)||typeof o.stock!=="number")throw 0;
+  if(confirm("Zvëndëso të gjitha të dhënat aktuale me backup-in?")){S=Object.assign({name:"",stock:0,logo:"",sales:[],closed:{}},o);save();render();toast("U rikthye")}}catch(e){toast("Backup i pavlefshëm")}};
+function shift(n){var d=new Date(D+"T12:00:00");d.setDate(d.getDate()+n);D=ds(d);render()}
+$("prev").onclick=function(){shift(-1)};$("next").onclick=function(){shift(1)};
+$("today").onclick=function(){D=dk(Date.now());render()};
+$("day").onchange=function(){if(this.value){D=this.value;render()}};
+$("name").oninput=function(){S.name=this.value;save()};
+$("file").onchange=function(){var f=this.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){
+  var im=new Image();im.onload=function(){var c=document.createElement("canvas"),k=Math.min(1,160/Math.max(im.width,im.height));
+  c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);S.logo=c.toDataURL("image/png");save();render()};im.src=rd.result};rd.readAsDataURL(f)};
+var W=null;
+var DN=["E diel","E hënë","E martë","E mërkurë","E enjte","E premte","E shtunë"];
+function wk(x){var d=new Date(x+"T12:00:00");d.setDate(d.getDate()-((d.getDay()+6)%7));return ds(d)}
+function wadd(w,n){var d=new Date(w+"T12:00:00");d.setDate(d.getDate()+n);return ds(d)}
+function wcalc(w){var r={c:0,b:0,q:0,n:0,days:{},drv:{},db:0};for(var i=0;i<7;i++)r.days[wadd(w,i)]={q:0,c:0,b:0,db:0};
+  S.sales.forEach(function(s){var k=dk(s.t);if(wk(k)!==w)return;var d=r.days[k],dn=s.d||"(pa emër)",g=r.drv[dn]||(r.drv[dn]={q:0,n:0,c:0,b:0});g.q+=s.q;g.n++;if(s.m==="bank")g.b+=s.p;else if(s.m==="debt")g.db+=s.p;else g.c+=s.p;r.q+=s.q;r.n++;d.q+=s.q;if(s.m==="bank"){r.b+=s.p;d.b+=s.p}else if(s.m==="debt"){r.db+=s.p;d.db+=s.p}else{r.c+=s.p;d.c+=s.p}});return r}
+function wshow(){var w=W,r=wcalc(w),cl=(S.closed||{})[w];
+  $("wl").innerHTML=w+(cl?'<span class="badge">E mbyllur</span>':"");
+  $("wr").textContent="E hënë "+w+" 07:00 → E hënë "+wadd(w,7)+" 05:00";
+  $("wc").textContent=fmt(r.c);$("wbk").textContent=fmt(r.b);$("wt").textContent=fmt(r.c+r.b);$("wsum").textContent=fmt(r.c)+" + "+fmt(r.b)+" = "+fmt(r.c+r.b);$("wq").textContent=r.q;$("wn2").textContent=r.n;$("ws").textContent=S.stock;
+  wfill();
+  var h="";for(var i=0;i<7;i++){var k=wadd(w,i),d=r.days[k],dd=new Date(k+"T12:00:00");
+    h+="<div><span>"+DN[dd.getDay()]+" "+k.slice(5)+" · "+d.q+" copë</span><span style=\"text-align:right\">💵 "+fmt(d.c)+" + 💳 "+fmt(d.b)+" = <b>"+fmt(d.c+d.b)+"</b></span></div>"}
+  $("wdl").innerHTML=h;
+  var dk2=Object.keys(r.drv),dh2="";dk2.forEach(function(k){var g=r.drv[k];dh2+="<div><span>"+dlabel(k)+" · "+g.q+" copë · "+g.n+" shitje</span><span style=\"text-align:right\">💵 "+fmt(g.c)+" + 💳 "+fmt(g.b)+" = <b>"+fmt(g.c+g.b)+"</b></span></div>"});
+  $("wdr").innerHTML=dh2?"<h3>Sipas shoferëve</h3>"+dh2:"";
+  $("wh").textContent=cl?"Mbyllur më "+new Date(cl.t).toLocaleString()+" (stoku në atë moment: "+cl.stock+"). Mund ta mbyllësh sërish për ta rifreskuar.":"";
+  $("wclose").textContent=cl?"✓ Rifresko mbylljen":"✓ Mbyll javën"}
+function wexp(w){var x=0;S.exp.forEach(function(e){if(wk(dk(e.t))===w)x+=e.a});return x}
+function costFor(w){var v=S.wcost&&S.wcost[w];return typeof v==="number"?v:S.cost}
+function wloss(w){var x=0;S.loss.forEach(function(e){if(wk(dk(e.t))===w)x+=e.q});return x}
+function wgs(w){var a=S.wages[w]||[],o=[];for(var i=0;i<4;i++)o.push(a[i]||{n:"",a:0,z:true});return o}
+function wfig(w){var r=wcalc(w),e=wexp(w),c=costFor(w),k=c*r.q,lp=wloss(w),lc=lp*c,wg=0;wgs(w).forEach(function(g){if(g.z&&g.a>0)wg+=g.a});return{c:c,r:r,e:e,k:k,lp:lp,lc:lc,wg:wg,net:r.c+r.b-e-k-lc-wg}}
+function wfill(){var v=S.wcost[W];$("wcs").value=typeof v==="number"?v:"";$("wcs").placeholder=S.cost?"(parazgjedhur "+S.cost+")":"p.sh. 11";var g=wgs(W);for(var i=0;i<4;i++){$("wgn"+i).value=g[i].n;$("wga"+i).value=g[i].a||"";$("wgz"+i).checked=!!g[i].z}wnetu()}
+function wnetu(){var f=wfig(W),pr=wcalc(wadd(W,-7)),t=f.r.c+f.r.b,pt=pr.c+pr.b,df=t-pt;
+  $("wnet").innerHTML=(f.r.db?"Borxh i pa arkëtuar: <b style='color:var(--dg)'>"+fmt(f.r.db)+"</b><br>":"")+"Shpenzime: <b>"+fmt(f.e)+"</b><br>Kosto e mallit ("+f.r.q+" × "+fmt(f.c)+"): <b>"+fmt(f.k)+"</b><br>Humbje ("+f.lp+" copë): <b>"+fmt(f.lc)+"</b><br>Punëtorët (zbritur): <b>"+fmt(f.wg)+"</b><br>Fitimi neto: <b style=\"color:var(--ac)\">"+fmt(f.net)+"</b><br>Vlera e stokut ("+S.stock+" × "+fmt(f.c)+"): <b>"+fmt(S.stock*f.c)+"</b><br><span style=\"color:var(--mu)\">Java e kaluar: "+fmt(pt)+" ("+(df>=0?"+":"")+fmt(df)+")</span>"}
+$("wcs").oninput=function(){var v=parseFloat(this.value);if(v>=0)S.wcost[W]=v;else delete S.wcost[W];save();wnetu()};
+function wsv(){var a=[];for(var i=0;i<4;i++)a.push({n:$("wgn"+i).value,a:parseFloat($("wga"+i).value)||0,z:$("wgz"+i).checked});S.wages[W]=a;save();wnetu()}
+for(var wi=0;wi<4;wi++){$("wgn"+wi).oninput=$("wga"+wi).oninput=$("wgz"+wi).onchange=wsv}
+function wtext(){var w=W,f=wfig(w),r=f.r,L="LLOGARIA JAVORE"+(S.name?" — "+S.name:"")+"\nNga: E hënë "+w+" 07:00\nDeri: E hënë "+wadd(w,7)+" 05:00\n\nCopë të shitura: "+r.q+"\nShitje: "+r.n+"\n💵 Cash: "+fmt(r.c)+"\n💳 Bank: "+fmt(r.b)+"\nSHUMA CASH + BANK: "+fmt(r.c)+" + "+fmt(r.b)+" = "+fmt(r.c+r.b)+"\n🔴 Borxh: "+fmt(r.db)+"\nShpenzime: "+fmt(f.e)+"\nKosto e mallit ("+r.q+" × "+fmt(f.c)+"): "+fmt(f.k)+"\nHumbje ("+f.lp+" copë): "+fmt(f.lc);
+  wgs(w).forEach(function(g){if(g.z&&g.a>0)L+="\nPuntor "+(g.n||"")+": -"+fmt(g.a)});
+  Object.keys(r.drv).forEach(function(k){var g=r.drv[k];L+="\n"+dlabel(k)+": "+g.q+" copë, "+fmt(g.c+g.b)});
+  return L+"\nFITIMI NETO: "+fmt(f.net)+"\nStoku mbetur: "+S.stock+" × "+fmt(f.c)+" = "+fmt(S.stock*f.c)}
+$("wbtn").onclick=function(){W=wk(D);wshow();$("wm").classList.add("on")};
+$("wx").onclick=function(){$("wm").classList.remove("on")};
+$("wp").onclick=function(){W=wadd(W,-7);wshow()};
+$("wnx").onclick=function(){W=wadd(W,7);wshow()};
+$("wclose").onclick=function(){var r=wcalc(W);if(!S.closed)S.closed={};S.closed[W]={t:Date.now(),q:r.q,n:r.n,c:r.c,b:r.b,stock:S.stock};save();wshow();toast("✓ Java u mbyll")};
+$("wcopy").onclick=function(){var t=wtext();try{navigator.clipboard.writeText(t).then(function(){toast("Raporti u kopjua")},function(){prompt("Kopjo:",t)})}catch(e){prompt("Kopjo:",t)}};
+function okobj(o){return o&&Array.isArray(o.sales)&&typeof o.stock==="number"}
+function applyObj(o){S=Object.assign({name:"",stock:0,logo:"",sales:[],closed:{}},o);if(!S.closed)S.closed={};D=dk(Date.now());save();render()}
+$("dl").onclick=function(){var b=new Blob([JSON.stringify(S)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="inventar-data.json";document.body.appendChild(a);a.click();a.remove();toast("U shkarkua")};
+$("ul").onclick=function(){$("ulf").click()};
+$("ulf").onchange=function(){var f=this.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){try{var o=JSON.parse(rd.result);if(!okobj(o))throw 0;if(confirm("Zëvendëso të dhënat aktuale me këtë skedar?")){applyObj(o);toast("U rikthye")}}catch(e){toast("Skedar i pavlefshëm")}};rd.readAsText(f);this.value=""};
+var E=-1;
+function ed(i){E=i;var s=S.sales[i];$("eq").value=s.q;$("ep").value=s.p;$("em").value=s.m==="bank"||s.m==="debt"?s.m:"cash";$("edr").value=s.d||"";$("emd").classList.add("on")}
+$("ex").onclick=function(){$("emd").classList.remove("on")};
+$("es").onclick=function(){var s=S.sales[E],q=parseInt($("eq").value),p=parseFloat($("ep").value);if(!(q>0)||!(p>=0)){toast("Vlera të pasakta");return}
+  if(S.stock+s.q-q<0){toast("Stok i pamjaftueshëm");return}S.stock+=s.q-q;s.q=q;s.p=p;s.m=$("em").value;s.d=$("edr").value.trim();if(s.d&&S.drivers.indexOf(s.d)<0)S.drivers.push(s.d);save();render();$("emd").classList.remove("on");toast("U ruajt")};
+$("edl").onclick=function(){if(confirm("Të fshihet kjo shitje?")){S.stock+=S.sales[E].q;S.sales.splice(E,1);save();render();$("emd").classList.remove("on");toast("U fshi")}};
+$("sb").onclick=function(){norm();for(var i=0;i<3;i++){$("sq"+i).value=S.deals[i]?S.deals[i].q:"";$("sp"+i).value=S.deals[i]?S.deals[i].p:""}$("sc").value=S.cost||"";$("sm").classList.add("on")};
+$("sx").onclick=function(){$("sm").classList.remove("on")};
+$("ss").onclick=function(){var d=[];for(var i=0;i<3;i++){var q=parseInt($("sq"+i).value),p=parseFloat($("sp"+i).value);if(q>0&&p>=0)d.push({q:q,p:p})}
+  if(!d.length){toast("Vendos të paktën një çmim");return}S.deals=d;S.cost=parseFloat($("sc").value)||0;save();render();$("sm").classList.remove("on");toast("U ruajt")};
+$("xa").onclick=function(){var a=parseFloat((prompt("Shuma e shpenzimit (£):")||"").replace(",","."));if(!(a>0))return;var n=prompt("Për çfarë? (opsionale)")||"";S.exp.push({a:a,n:n,t:Date.now()});save();toast("Shpenzim: "+fmt(a))};
+$("xu").onclick=function(){var e=S.exp.pop();if(e){save();toast("U anulua "+fmt(e.a))}else toast("Nuk ka shpenzime")};
+$("rd").onclick=function(){if(!S.drivers.length){toast("Nuk ka shoferë");return}var n=(prompt("Shkruaj emrin e shoferit për ta hequr:\n"+S.drivers.join(", "))||"").trim(),i=S.drivers.indexOf(n);if(i<0){if(n)toast("Nuk u gjet");return}S.drivers.splice(i,1);save();toast("U hoq "+n)};
+$("wpr").onclick=function(){window.print()};
+$("mb").onclick=function(){$("menu").classList.toggle("on")};
+document.querySelectorAll("#menu button").forEach(function(b){b.addEventListener("click",function(){$("menu").classList.remove("on")})});
+render();
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(function(){});
+</script>
+</body>
+</html>
